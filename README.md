@@ -3,7 +3,10 @@
 sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材です。
 
 - Sockshop 公式 HP：https://microservices-demo.github.io/
-- 参考元 Reposity：https://github.com/kashinoki38/microservices-demo/tree/master/deploy/kubernetes
+- 参考元 Reposity：
+  - https://github.com/microservices-demo/microservices-demo
+  - https://github.com/fjudith/microservices-demo
+  - https://github.com/kashinoki38/microservices-demo/tree/master/deploy/kubernetes
 
 # 実行方法
 

@@ -1,3 +1,17 @@
+<!-- TODO
+- パラメータ化する部分
+  - Deploymentレプリカ数
+  - ZIPKIN向け先
+- istio対応
+  - ingressgatewayからの向き先（Virtual Service）
+  - istioの入れ直し等
+  - unknown
+- 監視
+  - Prometheusラベルが揺れないようにしたい
+  - 後から追加できるようにしたい
+
+ -->
+
 # 概要
 
 sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材です。
@@ -10,8 +24,16 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
 
 # 実行方法
 
+#### デプロイ
+
 ```bash
 $ kustomize build overlays/ | k apply -f -
+```
+
+#### アンデプロイ
+
+```bash
+$ kustomize build overlays/ | k delete -f -
 ```
 
 # カスタム箇所

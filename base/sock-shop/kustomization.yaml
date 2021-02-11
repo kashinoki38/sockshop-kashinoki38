@@ -32,3 +32,4 @@ resources:
   - user-db-svc.yaml
   - user-dep.yaml
   - user-svc.yaml
+  - sock-shop-vs.yaml

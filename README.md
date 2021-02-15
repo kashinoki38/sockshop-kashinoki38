@@ -1,14 +1,15 @@
 <!-- TODO
+- 監視
+  - Prometheusラベルが揺れないようにしたい
+  - 後から追加できるようにしたい
 - パラメータ化する部分
   - Deploymentレプリカ数
   - ZIPKIN向け先
 - istio対応
-  - ingressgatewayからの向き先（Virtual Service）
-  - istioの入れ直し等
   - unknown
-- 監視
-  - Prometheusラベルが揺れないようにしたい
-  - 後から追加できるようにしたい
+  - manifest
+- 前提条件
+  - バージョン
 
  -->
 
@@ -21,6 +22,17 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
   - https://github.com/microservices-demo/microservices-demo
   - https://github.com/fjudith/microservices-demo
   - https://github.com/kashinoki38/microservices-demo/tree/master/deploy/kubernetes
+
+## 前提条件
+
+- GKE 1.17.15-gke.800
+- Istio 1.6.11
+  ```bash
+  > istioctl version
+  client version: 1.6.7
+  control plane version: 1.6.11-gke.0
+  data plane version: 1.6.11-gke.0 (15 proxies)
+  ```
 
 # 実行方法
 

@@ -7,12 +7,12 @@ metadata:
     app: front-end
   namespace: sock-shop
 spec:
-  type: LoadBalancer
+  # type: LoadBalancer
   ports:
     - name: http-front-end
       protocol: TCP
       port: 80
       targetPort: 8079
-      nodePort: 30002
+      # nodePort: 30002
   selector:
     app: front-end

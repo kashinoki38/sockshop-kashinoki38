@@ -33,3 +33,4 @@ resources:
   - user-dep.yaml
   - user-svc.yaml
   - sock-shop-vs.yaml
+  - sock-shop-gw.yaml

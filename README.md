@@ -13,7 +13,7 @@
 
  -->
 
-# 概要
+## 概要
 
 sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材です。
 
@@ -23,7 +23,7 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
   - https://github.com/fjudith/microservices-demo
   - https://github.com/kashinoki38/microservices-demo/tree/master/deploy/kubernetes
 
-## 前提条件
+### 前提条件
 
 - GKE 1.17.15-gke.800
 - Istio 1.6.11
@@ -34,23 +34,43 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
   data plane version: 1.6.11-gke.0 (15 proxies)
   ```
 
-# 実行方法
+## 実行方法
 
-#### デプロイ
+### istio マニフェストデプロイ
+
+事前に Kubernetes マニフェスト確認
+
+```bash
+$ istioctl manifest generate -f istio-manifest-v1.6.11.yaml
+```
+
+マニフェスト適用
+
+```bash
+$ istioctl upgrade -f istio-manifest-v1.6.11.yaml
+...
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
+✔ Addons installed
+✔ Installation complete
+```
+
+### SockShop クラスタデプロイ
 
 ```bash
 $ kustomize build overlays/ | k apply -f -
 ```
 
-#### アンデプロイ
+**アンデプロイ**
 
 ```bash
 $ kustomize build overlays/ | k delete -f -
 ```
 
-# カスタム箇所
+## デフォルト SockShop からのカスタム箇所
 
-## istio の導入
+### istio の導入
 
 ### namespace への`istio-injection`追加。
 
@@ -106,7 +126,7 @@ spec:
 ```yaml
 env:
   - name: ZIPKIN
-    value: zipkin.jaeger.svc.cluster.loca
+    value: zipkin.jaeger.svc.cluster.local
 ```
 
 ## prometheus operator

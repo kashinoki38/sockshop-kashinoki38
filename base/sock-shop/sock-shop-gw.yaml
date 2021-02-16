@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  labels:
+    operator.istio.io/component: IngressGateway
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: 1.6.11
+    release: istio
+  name: sock-shop-gateway
+  namespace: sock-shop
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - hosts:
+        - "*"
+      port:
+        name: http
+        number: 80
+        protocol: HTTP

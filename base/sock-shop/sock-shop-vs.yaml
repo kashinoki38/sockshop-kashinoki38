@@ -5,7 +5,7 @@ metadata:
   namespace: sock-shop
 spec:
   gateways:
-    - istio-system/ingressgateway
+    - sock-shop-gateway
   hosts:
     - "*"
   http:

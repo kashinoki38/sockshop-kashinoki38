@@ -6,8 +6,9 @@
   - Deploymentレプリカ数
   - ZIPKIN向け先
 - istio対応
-  - unknown
-  - manifest
+  - unknown(Kialiで確認可能)
+  - InboundPassThrough(Kialiで確認可能)
+  - Jaeger
 - 前提条件
   - バージョン
 
@@ -55,6 +56,32 @@ $ istioctl upgrade -f istio-manifest-v1.6.11.yaml
 ✔ Addons installed
 ✔ Installation complete
 ```
+
+#### Kiali の設定
+
+##### Credential（Secret 作成）
+
+```bash
+$ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
+Kiali Username: admin
+$ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
+Kiali Passphrase:
+$ cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: istio-system
+  labels:
+    app: kiali
+type: Opaque
+data:
+  username: $KIALI_USERNAME
+  passphrase: $KIALI_PASSPHRASE
+EOF
+```
+
+### kube-prometheus-stack
 
 ### SockShop クラスタデプロイ
 
@@ -128,7 +155,5 @@ env:
   - name: ZIPKIN
     value: zipkin.jaeger.svc.cluster.local
 ```
-
-## prometheus operator
 
 ## Jmeter

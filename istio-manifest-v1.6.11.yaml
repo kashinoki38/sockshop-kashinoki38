@@ -416,6 +416,7 @@ spec:
       service:
         annotations: {}
       tag: v1.18
+      prometheusAddr: http://prometheus.monitoring.svc.cluster.local:9090
     mixer:
       adapters:
         kubernetesenv:

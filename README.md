@@ -101,12 +101,12 @@ EOF
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 ```bash
-> helm install kube-prometheus-stack -f values.yaml ./kube-prometheus-stack --dry-run
+> helm install kube-prometheus-stack -f kube-prometheus-stack/values.yaml kube-prometheus-stack/ --dry-run
 ```
 
 ```bash
 > kubectl create ns monitoring-2
-> helm install kube-prometheus-stack -f values.yaml ./kube-prometheus-stack -n monitoring-2
+> helm install kube-prometheus-stack -f kube-prometheus-stack/values.yaml  kube-prometheus-stack/ -n monitoring-2
 Release "kube-prometheus-stack" has been upgraded. Happy Helming!
 NAME: kube-prometheus-stack
 LAST DEPLOYED: Wed Feb 17 04:29:42 2021
@@ -205,7 +205,7 @@ Dashboard 用の ConfigMap yaml が生成される。
 ```
 
 ```bash
-> helm upgrade kube-prometheus-stack -f values.yaml ./kube-prometheus-stack -n monitoring-2
+> helm upgrade kube-prometheus-stack -f kube-prometheus-stack/values.yaml kube-prometheus-stack/ -n monitoring-2
 Release "kube-prometheus-stack" has been upgraded. Happy Helming!
 NAME: kube-prometheus-stack
 LAST DEPLOYED: Fri Feb 19 02:51:06 2021

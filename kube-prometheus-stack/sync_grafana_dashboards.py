@@ -56,6 +56,48 @@ charts = [
         'destination': 'templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Mesh-Dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Control-Plane-Dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Service-dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Workload-Dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/jmx-exporter-dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/kubernetes-cluster-dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/node-exporter-dashboard.json',
+        'destination': 'templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
     }
 ]
 

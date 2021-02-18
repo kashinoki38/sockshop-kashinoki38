@@ -127,7 +127,7 @@
           ],
           "targets": [
             {
-              "expr": "kube_pod_container_info{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"}",
+              "expr": "kube_pod_container_info{namespace=~\"$namespace.*\",pod=~\"$pod.*\"}",
               "format": "table",
               "instant": true,
               "interval": "",
@@ -188,25 +188,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\", phase=\"Running\"})",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\",pod=~\"$pod.*\", phase=\"Running\"})",
               "interval": "",
               "legendFormat": "Running",
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Pending\"})",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Pending\"})",
               "interval": "",
               "legendFormat": "Pending",
               "refId": "B"
             },
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", phase=\"Failed\"})",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\", phase=\"Failed\"})",
               "interval": "",
               "legendFormat": "Failed",
               "refId": "C"
             },
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Unknown\"})",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Unknown\"})",
               "interval": "",
               "legendFormat": "Unknown",
               "refId": "D"
@@ -302,25 +302,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*.*\", phase=\"Running\"})by(pod)",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\",pod=~\"$pod.*.*\", phase=\"Running\"})by(pod)",
               "interval": "",
               "legendFormat": "Running-{{pod}}",
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Pending\"})by(pod)",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Pending\"})by(pod)",
               "interval": "",
               "legendFormat": "Pending-{{pod}}",
               "refId": "B"
             },
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", phase=\"Failed\"})by(pod)",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\", phase=\"Failed\"})by(pod)",
               "interval": "",
               "legendFormat": "Failed-{{pod}}",
               "refId": "C"
             },
             {
-              "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Unknown\"})",
+              "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Unknown\"})",
               "interval": "",
               "legendFormat": "Unknown",
               "refId": "D"
@@ -414,25 +414,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_status_ready{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
+              "expr": "sum(kube_pod_container_status_ready{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
               "interval": "",
               "legendFormat": "Ready",
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_status_terminated{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
+              "expr": "sum(kube_pod_container_status_terminated{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
               "interval": "",
               "legendFormat": "Terminated",
               "refId": "B"
             },
             {
-              "expr": "sum(kube_pod_container_status_waiting{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
+              "expr": "sum(kube_pod_container_status_waiting{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
               "interval": "",
               "legendFormat": "Waiting",
               "refId": "C"
             },
             {
-              "expr": "sum(kube_pod_container_status_running{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
+              "expr": "sum(kube_pod_container_status_running{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})",
               "interval": "",
               "legendFormat": "Running",
               "refId": "D"
@@ -528,25 +528,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_status_ready{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})by(pod,container)",
+              "expr": "sum(kube_pod_container_status_ready{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})by(pod,container)",
               "interval": "",
               "legendFormat": "Ready_{{pod}}_{{container}}",
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_status_terminated{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})by(pod,container)",
+              "expr": "sum(kube_pod_container_status_terminated{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})by(pod,container)",
               "interval": "",
               "legendFormat": "Terminated_{{pod}}_{{container}}",
               "refId": "B"
             },
             {
-              "expr": "sum(kube_pod_container_status_waiting{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})by(pod,container)",
+              "expr": "sum(kube_pod_container_status_waiting{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\"})by(pod,container)",
               "interval": "",
               "legendFormat": "Waiting_{{pod}}_{{container}}",
               "refId": "C"
             },
             {
-              "expr": "max(changes(kube_pod_container_status_restarts_total{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\"}[1m]))by(pod)",
+              "expr": "max(changes(kube_pod_container_status_restarts_total{namespace=~\"$namespace.*\", pod=~\"$pod.*\"}[1m]))by(pod)",
               "interval": "",
               "legendFormat": "Restarts_{{pod}}_{{container}}",
               "refId": "D"
@@ -662,19 +662,19 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Pending\"})by(pod)",
+          "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Pending\"})by(pod)",
           "interval": "",
           "legendFormat": "Pending-{{pod}}",
           "refId": "B"
         },
         {
-          "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", phase=\"Failed\"})by(pod)",
+          "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\", phase=\"Failed\"})by(pod)",
           "interval": "",
           "legendFormat": "Failed-{{pod}}",
           "refId": "C"
         },
         {
-          "expr": "sum(kube_pod_status_phase{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Unknown\"})",
+          "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace.*\", pod=~\"$pod.*\",phase=\"Unknown\"})",
           "interval": "",
           "legendFormat": "Unknown",
           "refId": "D"
@@ -772,7 +772,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(kube_pod_container_status_waiting{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\",instance=~\"$node.*\"})by(pod,container)",
+          "expr": "sum(kube_pod_container_status_waiting{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\",instance=~\"$node.*\"})by(pod,container)",
           "interval": "",
           "legendFormat": "Terminated_{{pod}}_{{container}}",
           "refId": "B"
@@ -870,13 +870,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(kube_pod_container_status_terminated{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\",instance=~\"$node.*\"})by(pod,container)",
+          "expr": "sum(kube_pod_container_status_terminated{namespace=~\"$namespace.*\", pod=~\"$pod.*\", container=~\"$container.*\",instance=~\"$node.*\"})by(pod,container)",
           "interval": "",
           "legendFormat": "Terminated_{{pod}}_{{container}}",
           "refId": "B"
         },
         {
-          "expr": "max(changes(kube_pod_container_status_restarts_total{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",instance=~\"$node.*\"}[1m]))by(pod)",
+          "expr": "max(changes(kube_pod_container_status_restarts_total{namespace=~\"$namespace.*\", pod=~\"$pod.*\",instance=~\"$node.*\"}[1m]))by(pod)",
           "hide": true,
           "interval": "",
           "legendFormat": "Restarts_{{pod}}_{{container}}",
@@ -975,7 +975,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(changes(kube_pod_container_status_restarts_total{exported_namespace=~\"$namespace.*\", pod=~\"$pod.*\",instance=~\"$node.*\"}[1m]))by(pod,container)",
+          "expr": "max(changes(kube_pod_container_status_restarts_total{namespace=~\"$namespace.*\", pod=~\"$pod.*\",instance=~\"$node.*\"}[1m]))by(pod,container)",
           "interval": "",
           "legendFormat": "Restarts_{{pod}}_{{container}}",
           "refId": "D"
@@ -1084,7 +1084,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(changes(kube_pod_container_status_waiting_reason{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",instance=~\"$node.*\"}[1m])>0)by(pod,reason,container)",
+          "expr": "max(changes(kube_pod_container_status_waiting_reason{namespace=~\"$namespace.*\",pod=~\"$pod.*\",instance=~\"$node.*\"}[1m])>0)by(pod,reason,container)",
           "interval": "",
           "legendFormat": "{{pod}}_{{container}} / {{reason}}",
           "refId": "A"
@@ -1179,7 +1179,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(changes(kube_pod_container_status_terminated_reason{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",instance=~\"$node.*\"}[1m])>0)by(pod,container,reason)",
+          "expr": "max(changes(kube_pod_container_status_terminated_reason{namespace=~\"$namespace.*\",pod=~\"$pod.*\",instance=~\"$node.*\"}[1m])>0)by(pod,container,reason)",
           "interval": "",
           "legendFormat": "{{pod}}_{{container}} / {{reason}}",
           "refId": "A"
@@ -1301,14 +1301,14 @@
           "refId": "A"
         },
         {
-          "expr": "sum(kube_pod_container_resource_limits_cpu_cores{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+          "expr": "sum(kube_pod_container_resource_limits_cpu_cores{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
           "hide": true,
           "interval": "",
           "legendFormat": "Limits: {{pod}}",
           "refId": "B"
         },
         {
-          "expr": "sum(kube_pod_container_resource_requests_cpu_cores{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+          "expr": "sum(kube_pod_container_resource_requests_cpu_cores{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
           "hide": true,
           "interval": "",
           "legendFormat": "Requests: {{pod}}",
@@ -1810,7 +1810,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=\"\"})",
+              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=\"\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -1818,7 +1818,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -1934,7 +1934,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{exported_namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -1942,7 +1942,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{exported_namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2060,7 +2060,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{exported_namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_requests_cpu_cores{namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2068,7 +2068,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{exported_namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_limits_cpu_cores{namespace=~\"$namespace.*\",container!=\"POD\",pod=~\"$pod.*\",container=\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2742,13 +2742,13 @@
           "refId": "D"
         },
         {
-          "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+          "expr": "sum(kube_pod_container_resource_requests_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
           "interval": "",
           "legendFormat": "Requests_{{pod}}",
           "refId": "E"
         },
         {
-          "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+          "expr": "sum(kube_pod_container_resource_limits_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
           "interval": "",
           "legendFormat": "Limits_{{pod}}",
           "refId": "F"
@@ -3052,7 +3052,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -3060,7 +3060,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
+              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -3182,7 +3182,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -3190,7 +3190,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -3308,7 +3308,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_requests_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -3316,7 +3316,7 @@
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
+              "expr": "sum(kube_pod_container_resource_limits_memory_bytes{namespace=~\"$namespace.*\",pod=~\"$pod.*\",container=~\"$container\"})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -7138,19 +7138,17 @@
         "current": {
           "selected": false,
           "text": "sock-shop",
-          "value": [
-            "sock-shop"
-          ]
+          "value": ["sock-shop"]
         },
         "datasource": "Prometheus",
-        "definition": "label_values(kube_namespace_labels, exported_namespace)",
+        "definition": "label_values(kube_namespace_labels, namespace)",
         "hide": 0,
         "includeAll": true,
         "label": "Namespace",
         "multi": true,
         "name": "namespace",
         "options": [],
-        "query": "label_values(kube_namespace_labels, exported_namespace)",
+        "query": "label_values(kube_namespace_labels, namespace)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -7167,19 +7165,17 @@
           "selected": true,
           "tags": [],
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": ["$__all"]
         },
         "datasource": "Prometheus",
-        "definition": "label_values(kube_pod_container_info{exported_namespace=~\"$namespace.*\"}, pod)",
+        "definition": "label_values(kube_pod_container_info{namespace=~\"$namespace.*\"}, pod)",
         "hide": 0,
         "includeAll": true,
         "label": "Pod",
         "multi": true,
         "name": "pod",
         "options": [],
-        "query": "label_values(kube_pod_container_info{exported_namespace=~\"$namespace.*\"}, pod)",
+        "query": "label_values(kube_pod_container_info{namespace=~\"$namespace.*\"}, pod)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -7195,19 +7191,17 @@
         "current": {
           "selected": true,
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": ["$__all"]
         },
         "datasource": "Prometheus",
-        "definition": "label_values(kube_pod_container_info{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"}, container)",
+        "definition": "label_values(kube_pod_container_info{namespace=~\"$namespace.*\",pod=~\"$pod.*\"}, container)",
         "hide": 0,
         "includeAll": true,
         "label": "Container",
         "multi": true,
         "name": "container",
         "options": [],
-        "query": "label_values(kube_pod_container_info{exported_namespace=~\"$namespace.*\",pod=~\"$pod.*\"}, container)",
+        "query": "label_values(kube_pod_container_info{namespace=~\"$namespace.*\",pod=~\"$pod.*\"}, container)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -7223,9 +7217,7 @@
         "current": {
           "selected": false,
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": ["$__all"]
         },
         "datasource": "Prometheus",
         "definition": "label_values(kube_node_info, node)",
@@ -7264,17 +7256,7 @@
       "2h",
       "1d"
     ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
   "title": "Pod Detail Dashborad",

@@ -171,8 +171,8 @@ Forwarding from [::1]:3000 -> 3000
 
 #### Grafana Dashboard 追加
 
-Helm チャートの`grafana.sidecar.dashboards.enabled`を`true`にしておく。
-`grafana.sidecar.dashboards.label`で定義されたラベルを持つ ConfigMap の JSON を Grafana ダッシュボードとしてインポートしてくれる。
+Helm チャートの`grafana.sidecar.dashboards.enabled`を`true`にしているため、
+Grafana ダッシュボード JSON を`grafana.sidecar.dashboards.label`で定義されたラベルを持つ ConfigMap で定義するとインポートしてくれる。
 
 ##### Dashboard の ConfigMap マニフェスト作成方法
 

@@ -52,7 +52,7 @@ charts = [
     #     'max_kubernetes': '1.14.0-0'
     # },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/prometheus-sample-yaml/master/grafana/pod_detail-dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/pod-detail-dashboard.json',
         'destination': 'templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'

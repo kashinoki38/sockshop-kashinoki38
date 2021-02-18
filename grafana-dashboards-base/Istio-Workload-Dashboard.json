@@ -389,11 +389,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
@@ -679,9 +675,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-          "total"
-        ]
+        "values": ["total"]
       },
       "yaxes": [
         {
@@ -1630,9 +1624,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-          "total"
-        ]
+        "values": ["total"]
       },
       "yaxes": [
         {
@@ -2627,20 +2619,8 @@
       "2h",
       "1d"
     ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "Istio Workload Dashboard",
-  "uid": "UbsSZTDik",
-  "version": 10
+  "title": "Istio Workload Dashboard"
 }

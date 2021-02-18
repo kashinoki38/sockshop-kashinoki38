@@ -1,5 +1,5 @@
 {{- /*
-Generated from 'Istio-Mesh-Dashboard' from https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Mesh-Dashboard.json
+Generated from 'istio-mesh-dashboard' from grafana-dashboards-base/istio-mesh-dashboard.json
 Do not change in-place! In order to change this file first read following link:
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack/hack
 */ -}}
@@ -9,7 +9,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: {{ template "kube-prometheus-stack.namespace" . }}
-  name: {{ printf "%s-%s" (include "kube-prometheus-stack.fullname" $) "Istio-Mesh-Dashboard" | trunc 63 | trimSuffix "-" }}
+  name: {{ printf "%s-%s" (include "kube-prometheus-stack.fullname" $) "istio-mesh-dashboard" | trunc 63 | trimSuffix "-" }}
   annotations:
 {{ toYaml .Values.grafana.sidecar.dashboards.annotations | indent 4 }}
   labels:
@@ -19,7 +19,7 @@ metadata:
     app: {{ template "kube-prometheus-stack.name" $ }}-grafana
 {{ include "kube-prometheus-stack.labels" $ | indent 4 }}
 data:
-  Istio-Mesh-Dashboard.json: |-
+  istio-mesh-dashboard.json: |-
     {
         "annotations": {
             "list": [
@@ -1335,8 +1335,6 @@ data:
             ]
         },
         "timezone": "browser",
-        "title": "Istio Mesh Dashboard",
-        "uid": "G8wLrJIZk",
-        "version": 1
+        "title": "Istio Mesh Dashboard"
     }
 {{- end }}

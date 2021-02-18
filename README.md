@@ -171,12 +171,13 @@ Forwarding from [::1]:3000 -> 3000
 
 #### Grafana Dashboard 追加
 
-Helm チャートの`grafana.sidecar.dashboards.enabled`を`true`にしておく。
-`grafana.sidecar.dashboards.label`で定義されたラベルを持つ ConfigMap の JSON を Grafana ダッシュボードとしてインポートしてくれる。
+Helm チャートの`grafana.sidecar.dashboards.enabled`を`true`にしているため、
+Grafana ダッシュボード JSON を`grafana.sidecar.dashboards.label`で定義されたラベルを持つ ConfigMap で定義するとインポートしてくれる。
 
 ##### Dashboard の ConfigMap マニフェスト作成方法
 
-https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/hack/sync_grafana_dashboards.py
+https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/hack/sync_grafana_dashboards.py  
+上記 py を参考にローカルの JSON を読むように改修。
 
 26 行目からの`charts`リストに以下のようなダッシュボード JSON リンクを追記。
 
@@ -185,8 +186,8 @@ https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-promet
 charts = [
   ...
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/prometheus-sample-yaml/master/grafana/pod_detail-dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'source': 'grafana-dashboards-base/node-exporter-dashboard.json',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
@@ -203,6 +204,8 @@ Dashboard 用の ConfigMap yaml が生成される。
 -rwxrwxrwx 1 kashinoki38 kashinoki38 294K Feb 19 02:50 pod-detail-dashboard.yaml*
 ...
 ```
+
+ConfigMap マニフェストを生成後、`helm upgrade`を実施することで ConfigMap がデプロイされた後、Grafana にもダッシュボードが反映される。
 
 ```bash
 > helm upgrade kube-prometheus-stack -f kube-prometheus-stack/values.yaml kube-prometheus-stack/ -n monitoring-2
@@ -289,6 +292,71 @@ spec:
       targetPort: 80
   selector:
     app: carts
+```
+
+### Grafana のダッシュボード
+
+### Prometheus Operator のスクレイプ
+
+#### service monitor
+
+以下の`service monitor`について、node 名を`node`ラベルとして取ってくるように`relabeling`を追加
+
+- kube-state-metrics
+- node exporter
+
+```yaml
+  serviceMonitor:
+    ...
+    relabelings:
+      - sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node
+    ...
+```
+
+#### additionalScrapeConfigs
+
+Istio のテレメトリをスクレイプするように`additionalScrapeConfigs`を追加。
+
+```yaml
+additionalScrapeConfigs:
+  # Mixer scrapping. Defaults to Prometheus and mixer on same namespace.
+  #
+  - job_name: "istio-mesh"
+    kubernetes_sd_configs:
+      - role: endpoints
+        namespaces:
+          names:
+            - istio-system
+    relabel_configs:
+      - source_labels:
+          [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+        action: keep
+        regex: istio-telemetry;prometheus
+  # Scrape config for envoy stats
+  - job_name: "envoy-stats"
+    metrics_path: /stats/prometheus
+    kubernetes_sd_configs:
+      - role: pod
+
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_container_port_name]
+        action: keep
+        regex: ".*-envoy-prom"
+      - source_labels:
+          [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:15090
+        target_label: __address__
+      - action: labeldrop
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: pod_name
 ```
 
 ### Jaeger/ZIPKIN の向き先

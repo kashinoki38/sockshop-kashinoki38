@@ -27,75 +27,75 @@ def change_style(style, representer):
 charts = [
     # {
     #     'source': 'https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/master/manifests/grafana-dashboardDefinitions.yaml',
-    #     'destination': '../templates/grafana/dashboards-1.14',
+    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards-1.14',
     #     'type': 'yaml',
     #     'min_kubernetes': '1.14.0-0'
     # },
     # {
     #     'source': 'https://raw.githubusercontent.com/etcd-io/website/master/content/docs/current/op-guide/grafana.json',
-    #     'destination': '../templates/grafana/dashboards-1.14',
+    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards-1.14',
     #     'type': 'json',
     #     'min_kubernetes': '1.14.0-0'
     # },
     # {
     #     'source': 'https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/release-0.1/manifests/grafana-dashboardDefinitions.yaml',
-    #     'destination': '../templates/grafana/dashboards',
+    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards',
     #     'type': 'yaml',
     #     'min_kubernetes': '1.10.0-0',
     #     'max_kubernetes': '1.14.0-0'
     # },
     # {
     #     'source': 'https://raw.githubusercontent.com/etcd-io/website/master/content/docs/current/op-guide/grafana.json',
-    #     'destination': '../templates/grafana/dashboards',
+    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards',
     #     'type': 'json',
     #     'min_kubernetes': '1.10.0-0',
     #     'max_kubernetes': '1.14.0-0'
     # },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/pod-detail-dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Mesh-Dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Control-Plane-Dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Service-dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Workload-Dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/jmx-exporter-dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/kubernetes-cluster-dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
         'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/node-exporter-dashboard.json',
-        'destination': 'templates/grafana/dashboards-1.14',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     }

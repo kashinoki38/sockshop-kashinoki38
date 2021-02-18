@@ -52,49 +52,49 @@ charts = [
     #     'max_kubernetes': '1.14.0-0'
     # },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/pod-detail-dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/pod-detail-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Mesh-Dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/istio-mesh-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Control-Plane-Dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/istio-control-plane-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Service-dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/istio-service-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/Istio-Workload-Dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/istio-workload-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/jmx-exporter-dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/jmx-exporter-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/kubernetes-cluster-dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/kubernetes-cluster-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'
     },
     {
-        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/master/grafana-dashboards-base/node-exporter-dashboard.json',
+        'source': 'https://raw.githubusercontent.com/kashinoki38/sockshop-kashinoki38/grafana/grafana-dashboards-base/node-exporter-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'

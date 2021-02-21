@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jmeter-loadtest-influxdb
+  name: jmeter-loadtest-influxdb
+  namespace: jmeter
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: jmeter-loadtest-influxdb
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jmeter-loadtest-influxdb
+    spec:
+      containers:
+        - image: influxdb
+          imagePullPolicy: IfNotPresent
+          name: influxdb
+          ports:
+            - containerPort: 8083
+              name: influx
+              protocol: TCP
+            - containerPort: 8086
+              name: api
+              protocol: TCP
+            - containerPort: 2003
+              name: graphite
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /etc/influxdb
+              name: config-volume
+          # command: ["/bin/sh"]
+          # args:
+          #   [
+          #     "-c",
+          #     'curl -i -XPOST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE jmeter"',
+          #   ]
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - 'curl -i -XPOST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE jmeter"'
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: jmeter-loadtest-influxdb-config
+          name: config-volume

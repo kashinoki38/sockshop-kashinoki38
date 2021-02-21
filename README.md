@@ -1,9 +1,6 @@
 <!-- TODO
 - 監視
   - Prometheusラベルが揺れないようにしたい
-  - 後から追加できるようにしたい
-  - Scrape yaml, annotation
-  - Dashboardとして追加したグラフ
   - 永続化
 - パラメータ化する部分
   - Deploymentレプリカ数
@@ -230,6 +227,8 @@ kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 ### SockShop クラスタデプロイ
 
 ```bash
+$ kubectl apply -f sock-shop-ns.yaml
+$ kubectl apply -f jmeter-ns.yaml
 $ kustomize build overlays/ | k apply -f -
 ```
 
@@ -357,6 +356,18 @@ additionalScrapeConfigs:
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
         target_label: pod_name
+```
+
+### Kiali の Prometheus 向き先
+
+```yaml
+spec:
+  ...
+  values:
+  ...
+    kiali:
+    ...
+      prometheusAddr: http://prometheus.monitoring.svc.cluster.local:9090
 ```
 
 ### Jaeger/ZIPKIN の向き先

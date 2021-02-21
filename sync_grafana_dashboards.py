@@ -25,32 +25,6 @@ def change_style(style, representer):
 
 # Source files list
 charts = [
-    # {
-    #     'source': 'https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/master/manifests/grafana-dashboardDefinitions.yaml',
-    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards-1.14',
-    #     'type': 'yaml',
-    #     'min_kubernetes': '1.14.0-0'
-    # },
-    # {
-    #     'source': 'https://raw.githubusercontent.com/etcd-io/website/master/content/docs/current/op-guide/grafana.json',
-    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards-1.14',
-    #     'type': 'json',
-    #     'min_kubernetes': '1.14.0-0'
-    # },
-    # {
-    #     'source': 'https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/release-0.1/manifests/grafana-dashboardDefinitions.yaml',
-    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards',
-    #     'type': 'yaml',
-    #     'min_kubernetes': '1.10.0-0',
-    #     'max_kubernetes': '1.14.0-0'
-    # },
-    # {
-    #     'source': 'https://raw.githubusercontent.com/etcd-io/website/master/content/docs/current/op-guide/grafana.json',
-    #     'destination': '../kube-prometheus-stack/templates/grafana/dashboards',
-    #     'type': 'json',
-    #     'min_kubernetes': '1.10.0-0',
-    #     'max_kubernetes': '1.14.0-0'
-    # },
     {
         'source': 'grafana-dashboards-base/pod-detail-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
@@ -95,6 +69,12 @@ charts = [
     },
     {
         'source': 'grafana-dashboards-base/node-exporter-dashboard.json',
+        'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
+        'type': 'json',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
+        'source': 'grafana-dashboards-base/jmeter-metrics-dashboard.json',
         'destination': 'kube-prometheus-stack/templates/grafana/dashboards-1.14',
         'type': 'json',
         'min_kubernetes': '1.14.0-0'

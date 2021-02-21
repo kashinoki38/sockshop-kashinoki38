@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ../../base/loadtest
 
-namespace: loadtest-2
+namespace: jmeter-2

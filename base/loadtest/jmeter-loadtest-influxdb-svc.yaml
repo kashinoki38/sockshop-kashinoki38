@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jmeter-loadtest-influxdb
+  name: jmeter-loadtest-influxdb
+  namespace: jmeter
+spec:
+  ports:
+    - name: http
+      port: 8083
+      protocol: TCP
+      targetPort: 8083
+    - name: api
+      port: 8086
+      protocol: TCP
+      targetPort: 8086
+    - name: graphite
+      port: 2003
+      protocol: TCP
+      targetPort: 2003
+  selector:
+    app: jmeter-loadtest-influxdb
+  sessionAffinity: None
+  type: ClusterIP

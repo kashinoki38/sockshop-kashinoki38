@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-namespace=jmeter-2
+namespace=jmeter
 jmx="$1"
 [ -n "$jmx" ] || read -p 'Enter path to the jmx file ' jmx
 

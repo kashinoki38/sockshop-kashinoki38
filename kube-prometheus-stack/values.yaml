@@ -667,7 +667,7 @@ grafana:
       #       tlsSkipVerify: true
       #   orgId: 1
       type: influxdb
-      url: http://jmeter-loadtest-influxdb.jmeter-2.svc.cluster.local:8086
+      url: http://jmeter-loadtest-influxdb.jmeter.svc.cluster.local:8086
       database: jmeter
   #   version: 1
 

@@ -6,14 +6,9 @@
   - Deploymentレプリカ数
   - ZIPKIN向け先
 - istio対応
-  - unknown(Kialiで確認可能)
-  - InboundPassThrough(Kialiで確認可能)
-  - Jaeger
-    - Headerいるの？
-    - どうやって足すのが簡易？
-  - カスタマイズ項目
-- Logging
-  - Loki? EFK?
+- Jaeger
+  - Headerいるの？
+  - どうやって足すのが簡易？
 - ArgoCD
 - Flagger
 - 前提条件

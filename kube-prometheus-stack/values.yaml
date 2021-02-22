@@ -669,6 +669,9 @@ grafana:
       type: influxdb
       url: http://jmeter-loadtest-influxdb.jmeter.svc.cluster.local:8086
       database: jmeter
+    - name: Loki
+      type: loki
+      url: http://loki-stack.monitoring.svc.cluster.local:3100
   #   version: 1
 
   ## Passed to grafana subchart and used by servicemonitor below

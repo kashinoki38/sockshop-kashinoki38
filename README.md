@@ -42,6 +42,7 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
   data plane version: 1.6.11-gke.0 (15 proxies)
   ```
 - prometheus-community/kube-prometheus-stack : Chart version 13.7.2
+- loki-stack : 2.3.1.
 - EFK //TODO
 
 ## セットアップ手順
@@ -220,6 +221,12 @@ Visit https://github.com/prometheus-operator/kube-prometheus for instructions on
 ...
 kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 ...
+```
+
+### Loki
+
+```bash
+> helm install loki-stack loki-stack/ -n monitoring-2
 ```
 
 ### SockShop クラスタデプロイ

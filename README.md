@@ -229,18 +229,48 @@ kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 ```bash
 $ kubectl apply -f sock-shop-ns.yaml
 $ kubectl apply -f jmeter-ns.yaml
-$ kustomize build overlays/ | k apply -f -
+$ kustomize build overlays/ | kubectl apply -f -
 ```
 
 **アンデプロイ**
 
 ```bash
-$ kustomize build overlays/ | k delete -f -
+$ kustomize build overlays/ | kubectl delete -f -
 ```
 
 #### カスタマイズ
 
 `overlays/`配下の`kustomization.yaml`で Kustomize のパッチ当て。
+
+### Jmeter 実行
+
+#### ユーザデータ準備
+
+```bash
+> cd jmeter
+> vi start_test.sh #負荷量調整
+...
+24: # /jmeter/apache-jmeter-*/bin/jmeter -n -t $1 -Dserver.rmi.ssl.disable=true -JServerName=$2 -JNumOfThreads=$3 -JRampUp=$4 -JDuration=$5 -JTPM=$6
+25: kubectl -n $namespace exec -ti $master_pod -- /bin/bash /load_test "$test_name" "34.84.80.98" "10" "10" "600" "300"
+
+> bash start_test.sh
+Enter path to the jmx file
+preparation.jmx #指定
+```
+
+#### 試験実施
+
+```bash
+> cd jmeter
+> vi start_test.sh #負荷量調整
+...
+24: # /jmeter/apache-jmeter-*/bin/jmeter -n -t $1 -Dserver.rmi.ssl.disable=true -JServerName=$2 -JNumOfThreads=$3 -JRampUp=$4 -JDuration=$5 -JTPM=$6
+25: kubectl -n $namespace exec -ti $master_pod -- /bin/bash /load_test "$test_name" "34.84.80.98" "100" "180" "900" "6000"
+
+> bash start_test.sh
+Enter path to the jmx file
+scenario.jmx #指定
+```
 
 ## デフォルト SockShop からのカスタム箇所
 

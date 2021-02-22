@@ -14,8 +14,6 @@
   - カスタマイズ項目
 - Logging
   - Loki? EFK?
-- Jmeter
-  - Operator?
 - ArgoCD
 - Flagger
 - 前提条件
@@ -46,7 +44,7 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
 - prometheus-community/kube-prometheus-stack : Chart version 13.7.2
 - EFK //TODO
 
-## 実行方法
+## セットアップ手順
 
 ### istio マニフェストデプロイ
 
@@ -92,9 +90,9 @@ data:
 EOF
 ```
 
-### kube-prometheus-stack
+### Prometheus
 
-`kube-prometheus-stack`を使用。  
+`kube-prometheus-stack`(旧 Prometheus-Operator)を使用。  
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 ```bash
@@ -226,6 +224,8 @@ kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 
 ### SockShop クラスタデプロイ
 
+sock-shop namespace と jmeter namespace がデプロイされる。
+
 ```bash
 $ kubectl apply -f sock-shop-ns.yaml
 $ kubectl apply -f jmeter-ns.yaml
@@ -242,7 +242,7 @@ $ kustomize build overlays/ | kubectl delete -f -
 
 `overlays/`配下の`kustomization.yaml`で Kustomize のパッチ当て。
 
-### Jmeter 実行
+## Jmeter 実行
 
 #### ユーザデータ準備
 

@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ../../base/sock-shop
 
-namespace: sock-shop-2
+namespace: sock-shop

@@ -97,12 +97,8 @@ EOF
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 ```bash
-> helm install kube-prometheus-stack -f kube-prometheus-stack/values.yaml kube-prometheus-stack/ --dry-run
-```
-
-```bash
-> kubectl create ns monitoring-2
-> helm install kube-prometheus-stack -f kube-prometheus-stack/values.yaml  kube-prometheus-stack/ -n monitoring-2
+> kubectl create ns monitoring
+> helm upgrade -i kube-prometheus-stack -f kube-prometheus-stack/values.yaml  kube-prometheus-stack/ -n monitoring
 Release "kube-prometheus-stack" has been upgraded. Happy Helming!
 NAME: kube-prometheus-stack
 LAST DEPLOYED: Wed Feb 17 04:29:42 2021
@@ -111,15 +107,15 @@ STATUS: deployed
 REVISION: 2
 NOTES:
 kube-prometheus-stack has been installed. Check its status by running:
-  kubectl --namespace monitoring-2 get pods -l "release=kube-prometheus-stack"
+  kubectl --namespace monitoring get pods -l "release=kube-prometheus-stack"
 
 Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
 
-> helm list -n monitoring-2
+> helm list -n monitoring
 NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                           APP VERSION
-kube-prometheus-stack   monitoring-2    1               2021-02-19 01:53:54.9194679 +0900 JST   deployed        kube-prometheus-stack-13.7.2    0.45.0
+kube-prometheus-stack   monitoring    1               2021-02-19 01:53:54.9194679 +0900 JST   deployed        kube-prometheus-stack-13.7.2    0.45.0
 
-> kubectl get po -n monitoring-2
+> kubectl get po -n monitoring
 NAME                                                       READY   STATUS    RESTARTS   AGE
 alertmanager-kube-prometheus-stack-alertmanager-0          2/2     Running   0          2m33s
 kube-prometheus-stack-grafana-5c4fbd566f-vmkjw             2/2     Running   0          2m44s
@@ -204,16 +200,16 @@ Dashboard 用の ConfigMap yaml が生成される。
 ConfigMap マニフェストを生成後、`helm upgrade`を実施することで ConfigMap がデプロイされた後、Grafana にもダッシュボードが反映される。
 
 ```bash
-> helm upgrade kube-prometheus-stack -f kube-prometheus-stack/values.yaml kube-prometheus-stack/ -n monitoring-2
+> helm upgrade kube-prometheus-stack -f kube-prometheus-stack/values.yaml kube-prometheus-stack/ -n monitoring
 Release "kube-prometheus-stack" has been upgraded. Happy Helming!
 NAME: kube-prometheus-stack
 LAST DEPLOYED: Fri Feb 19 02:51:06 2021
-NAMESPACE: monitoring-2
+NAMESPACE: monitoring
 STATUS: deployed
 REVISION: 4
 NOTES:
 kube-prometheus-stack has been installed. Check its status by running:
-  kubectl --namespace monitoring-2 get pods -l "release=kube-prometheus-stack"
+  kubectl --namespace monitoring get pods -l "release=kube-prometheus-stack"
 
 Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
 
@@ -226,7 +222,7 @@ kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 ### Loki
 
 ```bash
-> helm install loki-stack loki-stack/ -n monitoring-2
+> helm upgrade -i loki-stack loki-stack/ -n monitoring
 ```
 
 ### SockShop クラスタデプロイ

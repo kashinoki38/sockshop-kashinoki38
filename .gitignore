@@ -2,3 +2,4 @@ istio-all-manifest.yaml
 test.yaml
 loki-stack-2.3.1.tgz
 flagger-1.6.3.tgz
+loadtester-0.18.0.tgz

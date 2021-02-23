@@ -33,7 +33,7 @@ adduser --system -group app && \
 apt-get clean && \
 apt-get update && \
 apt-get -qy install \
-ca-certificates curl jq gcc
+ca-certificates curl jq libgcc-8-dev wget
 
 
 

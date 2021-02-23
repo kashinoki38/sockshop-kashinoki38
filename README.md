@@ -268,6 +268,12 @@ slack:
 
 #### Flagger の Webhook としての Jmeter
 
+```bash
+$ helm upgrade -i jmeter-flagger -n jmeter -f loadtester/values.yaml loadtester/
+```
+
+##### jmeter-flagger Docker イメージ
+
 `weaveworks/flagger-loadtester`に jmeter 資材を注入したコンテナイメージを以下コマンドでビルド
 
 ```bash

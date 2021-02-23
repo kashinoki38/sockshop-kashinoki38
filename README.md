@@ -218,6 +218,10 @@ kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 
 ```bash
 > helm upgrade -i loki-stack loki-stack/ -n monitoring
+> helm list -n monitoring
+NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                           APP VERSION
+loki-stack              monitoring      1               2021-02-23 01:50:30.7269591 +0900 JST   deployed        loki-stack-2.3.1                v2.1.0
+
 ```
 
 ### SockShop クラスタデプロイ
@@ -239,6 +243,45 @@ $ kustomize build overlays/ | kubectl delete -f -
 #### カスタマイズ
 
 `overlays/`配下の`kustomization.yaml`で Kustomize のパッチ当て。
+
+### Flagger
+
+```bash
+$ helm upgrade -i flagger flagger/ \
+ -n istio-sytem \
+ —set slack.url=https://hooks.slack.com/services/YOUR-WEBHOOK-ID \
+ —set slack.channel=general \
+ —set slack.user=flagger
+
+$ helm list -n istio-system
+NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+flagger istio-system    1               2021-02-23 09:35:00.4708245 +0900 JST   deployed        flagger-1.6.3   1.6.3
+
+$ helm get values flagger
+USER-SUPPLIED VALUES:
+metricsServer: http://prometheus.monitoring:9090
+slack:
+  channel: 'general'
+  url: https://hooks.slack.com/services/YOUR-WEBHOOK-ID
+  user: flagger
+```
+
+#### Flagger の Webhook としての Jmeter
+
+`weaveworks/flagger-loadtester`に jmeter 資材を注入したコンテナイメージを以下コマンドでビルド
+
+```bash
+$ cd jmeter
+$ docker build -t jmeter-flagger -f jmeter-flagger.dockerfile .
+$ docker run -d --name jmeter-flagger jmeter-flagger:latest
+```
+
+Flagger の Canary 設定ファイル`canary.yaml`
+以下を設定
+
+- 対象となる deployment (`.spec.targetRef`)
+- Canary analysis の条件(`.spe.analysis`)
+  - リトライ間隔(`interval`), rollback するまでののリトライ回数(`threshold`), トランザクションを割り振る
 
 ## Jmeter 実行
 

@@ -4,7 +4,8 @@ image:
   # repository: ghcr.io/fluxcd/flagger-loadtester
   repository: kashinoki38/jmeter-flagger
   tag: latest
-  pullPolicy: IfNotPresent
+  # pullPolicy: IfNotPresen
+  pullPolicy: Always
 
 podAnnotations:
   prometheus.io/scrape: "true"

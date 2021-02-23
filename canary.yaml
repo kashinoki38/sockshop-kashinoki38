@@ -41,7 +41,7 @@ spec:
       retryOn: "gateway-error,connect-failure,refused-stream"
   analysis:
     # schedule interval (default 60s)
-    interval: 1m
+    interval: 2m
     # max number of failed metric checks before rollback
     threshold: 5
     # max traffic percentage routed to canary
@@ -52,19 +52,19 @@ spec:
     # stepWeight: 10
     # You can use the blue/green deployment strategy by replacing stepWeight/maxWeight with iterations in the analysis spec:
     # With this configuration Flagger will run conformance and load tests on the canary pods for ten minutes.
-    iterations: 15
+    iterations: 5
     metrics:
-      - name: request-success-rate
+      - name: request-success-rate-custome
         # minimum req success rate (non 5xx responses)
         # percentage (0-100)
         thresholdRange:
           min: 99
         interval: 1m
-      - name: request-duration
+      - name: request-duration-custome
         # maximum req duration P99
         # milliseconds
         thresholdRange:
-          max: 1000
+          max: 2000
         interval: 30s
     # testing (optional)
     webhooks:
@@ -75,16 +75,24 @@ spec:
         metadata:
           type: bash
           cmd: "curl -s http://front-end.sock-shop/"
-      - name: user-preparation
-        type: pre-rollout
-        url: http://jmeter-flagger-loadtester.jmeter/
-        timeout: 30s
-        metadata:
-          type: bash
-          cmd: '/bin/bash /load_test /preparation.jmx "34.84.80.98" "100" "180" "900" "6000"'
+      # - name: user-preparation
+      #   type: pre-rollout
+      #   url: http://jmeter-flagger-loadtester.jmeter/
+      #   timeout: 30s
+      #   metadata:
+      #     type: bash
+      #     cmd: '/bin/bash /load_test /preparation.jmx "34.84.80.98" "100" "180" "900" "6000"'
       - name: load-test
         url: http://jmeter-flagger-loadtester.jmeter/
         timeout: 5s
         metadata:
           # cmd: "hey -z 1m -q 10 -c 2 http://podinfo-canary.test:9898/"
-          cmd: '/bin/bash /load_test /scenario.jmx "34.84.80.98" "100" "180" "900" "6000"'
+          # cmd: '/bin/bash /load_test /scenario.jmx "34.84.80.98" "100" "180" "900" "6000"'
+          cmd: '/bin/bash /load_test /scenario.jmx "front-end-canary.sock-shop" "30" "180" "600" "1800"'
+          # /jmeter/apache-jmeter-*/bin/jmeter -n -t $1 -Dserver.rmi.ssl.disable=true -JServerName=$2 -JNumOfThreads=$3 -JRampUp=$4 -JDuration=$5 -JTPM=$6
+      # - name: "send to Slack"
+      #   type: event
+      #   url: https://hooks.slack.com/services/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
+      #   metadata:
+      #     environment: "test"
+      #     cluster: "flagger-test"

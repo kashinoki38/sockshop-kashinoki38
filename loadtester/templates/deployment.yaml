@@ -68,6 +68,15 @@ spec:
             timeoutSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - mountPath: /load_test
+            name: loadtest
+            subPath: load_test
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: jmeter-loadtest-jmeter-master-config
+        name: loadtest
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

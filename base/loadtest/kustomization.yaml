@@ -7,4 +7,13 @@ resources:
   - jmeter-loadtest-influxdb-cm.yaml
   - jmeter-loadtest-jmeter-master-dep.yaml
   - jmeter-loadtest-jmeter-master-cm.yaml
-  # - 01-loadtest-dep.yaml
+  - jmeter-flagger-dep.yaml
+  - jmeter-flagger-svc.yaml
+
+configMapGenerator:
+  - name: jmeter-scenario-load-test
+    files:
+      - scenario.jmx
+  - name: jmeter-scenario-user-preparation
+    files:
+      - preparation.jmx

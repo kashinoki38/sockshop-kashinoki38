@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmeter-flagger-loadtester
+  labels:
+    app.kubernetes.io/name: loadtester
+    app.kubernetes.io/instance: jmeter-flagger
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: loadtester

@@ -1,0 +1,7 @@
+configMapGenerator:
+  - name: jmeter-scenario-load-test
+    files:
+      - scenario.jmx
+  - name: jmeter-scenario-user-preparation
+    files:
+      - preparation.jmx

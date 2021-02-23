@@ -18,7 +18,7 @@
 
 ## 概要
 
-sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材です。
+sock-shop をサンプルアプリとして、Observability と負荷試験自動化スタックを追加した資材です。
 
 - Sockshop 公式 HP：https://microservices-demo.github.io/
 - 参考元 Reposity：
@@ -26,7 +26,7 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
   - https://github.com/fjudith/microservices-demo
   - https://github.com/kashinoki38/microservices-demo/tree/master/deploy/kubernetes
 
-### 前提条件
+### 導入スタック＆前提条件
 
 - GKE 1.17.15-gke.800
 - Istio 1.6.11
@@ -37,8 +37,11 @@ sockshop の Kubernetes サンプルをカスタマイズした Kustomize 資材
   data plane version: 1.6.11-gke.0 (15 proxies)
   ```
 - prometheus-community/kube-prometheus-stack : Chart version 13.7.2
-- loki-stack : 2.3.1.
-- EFK //TODO
+- loki/loki-stack : 2.3.1
+- flagger/flagger : 1.6.3
+- flagger/loadtester : 0.18.0 (Docker イメージは独自で Jmeter 追加したイメージ)
+  - kashinoki38/jmeter-flagger
+  <!-- - EFK //TODO -->
 
 ## セットアップ手順
 
@@ -268,8 +271,66 @@ slack:
 
 #### Flagger の Webhook としての Jmeter
 
+sock-shop の Kustomize にて以下 Deployment と Service が導入済み。
+
+- svc/jmeter-flagger-loadtester
+- deploy/jmeter-flagger-loadtester
+
+##### Jmeter Scenario 更新方法
+
+`base/kustomization.yaml`の以下定義により Kustomize で jmx ファイルを ConfigMap 化している。
+
+```yaml
+configMapGenerator:
+  - name: jmeter-scenario-load-test
+    files:
+      - scenario.jmx
+  - name: jmeter-scenario-user-preparation
+    files:
+      - preparation.jmx
+```
+
+`base/scenario.jmx`を更新し、Kustomize 再実行で ConfigMap が生成される。  
+`kubectl apply -f'にて更新すると更新分が`metadata.annotations`に入り切らずエラーが出る。 シナリオを更新する場合は`kubectl create -f`を使用すること。
+
 ```bash
-$ helm upgrade -i jmeter-flagger -n jmeter -f loadtester/values.yaml loadtester/
+$ kustomize build overlays/ | kubectl apply -f -
+Error from server (Invalid): error when creating "STDIN": ConfigMap "jmeter-scenario-load-test-kg4kc24f6t" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+Error from server (Invalid): error when creating "STDIN": ConfigMap "jmeter-scenario-user-preparation-gh5g4kgk66" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
+
+$ kustomize build overlays/ | kubectl create -f -
+configmap/jmeter-scenario-load-test-kg4kc24f6t created
+configmap/jmeter-scenario-user-preparation-gh5g4kgk66 created
+deployment.apps/jmeter-flagger-loadtester created
+```
+
+生成される ConfigMap には末尾に Hash が追加されるが、その ConfigMap を参照する Deployment のマニフェストは自動で書き換えられる。
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-flagger-loadtester
+  namespace: jmeter
+spec:
+...
+        volumeMounts:
+        - mountPath: /scenario
+          name: jmeter-scenario-load-test
+          subPath: scenario.jmx
+        - mountPath: /scenario
+          name: jmeter-scenario-user-preparation
+          subPath: preparation.jmx
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: jmeter-scenario-load-test-kg4kc24f6t
+        name: jmeter-scenario-load-test
+      - configMap:
+          defaultMode: 420
+          name: jmeter-scenario-user-preparation-gh5g4kgk66
+        name: jmeter-scenario-user-preparation
+
 ```
 
 ##### jmeter-flagger Docker イメージ

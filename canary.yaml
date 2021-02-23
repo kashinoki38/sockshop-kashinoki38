@@ -90,9 +90,3 @@ spec:
           # cmd: '/bin/bash /load_test /scenario.jmx "34.84.80.98" "100" "180" "900" "6000"'
           cmd: '/bin/bash /load_test /scenario.jmx "front-end-canary.sock-shop" "30" "180" "600" "1800"'
           # /jmeter/apache-jmeter-*/bin/jmeter -n -t $1 -Dserver.rmi.ssl.disable=true -JServerName=$2 -JNumOfThreads=$3 -JRampUp=$4 -JDuration=$5 -JTPM=$6
-      # - name: "send to Slack"
-      #   type: event
-      #   url: https://hooks.slack.com/services/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
-      #   metadata:
-      #     environment: "test"
-      #     cluster: "flagger-test"

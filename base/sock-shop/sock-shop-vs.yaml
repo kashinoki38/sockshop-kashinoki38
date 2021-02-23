@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: sock-shop
+  name: front-end
   namespace: sock-shop
 spec:
   gateways:

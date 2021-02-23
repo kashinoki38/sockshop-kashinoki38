@@ -52,7 +52,7 @@ spec:
     # stepWeight: 10
     # You can use the blue/green deployment strategy by replacing stepWeight/maxWeight with iterations in the analysis spec:
     # With this configuration Flagger will run conformance and load tests on the canary pods for ten minutes.
-    iterations: 10
+    iterations: 15
     metrics:
       - name: request-success-rate
         # minimum req success rate (non 5xx responses)
@@ -60,12 +60,12 @@ spec:
         thresholdRange:
           min: 99
         interval: 1m
-      # - name: request-duration
-      #   # maximum req duration P99
-      #   # milliseconds
-      #   thresholdRange:
-      #     max: 500
-      #   interval: 30s
+      - name: request-duration
+        # maximum req duration P99
+        # milliseconds
+        thresholdRange:
+          max: 1000
+        interval: 30s
     # testing (optional)
     webhooks:
       - name: acceptance-test
@@ -74,9 +74,17 @@ spec:
         timeout: 30s
         metadata:
           type: bash
-          cmd: "curl -sd 'test' http://podinfo-canary:9898/token | grep token"
+          cmd: "curl -s http://front-end.sock-shop/"
+      - name: user-preparation
+        type: pre-rollout
+        url: http://jmeter-flagger-loadtester.jmeter/
+        timeout: 30s
+        metadata:
+          type: bash
+          cmd: '/bin/bash /load_test /preparation.jmx "34.84.80.98" "100" "180" "900" "6000"'
       - name: load-test
-        url: http://flagger-loadtester.test/
+        url: http://jmeter-flagger-loadtester.jmeter/
         timeout: 5s
         metadata:
-          cmd: "hey -z 1m -q 10 -c 2 http://podinfo-canary.test:9898/"
+          # cmd: "hey -z 1m -q 10 -c 2 http://podinfo-canary.test:9898/"
+          cmd: '/bin/bash /load_test /scenario.jmx "34.84.80.98" "100" "180" "900" "6000"'

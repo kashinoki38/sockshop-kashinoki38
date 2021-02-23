@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: front-end
-        image: gcr.io/nttd-platformtec/front-end:0.3.20 #//TODO
+        image: kashinoki38/front-end:v0.4.0 #//TODO
         resources:
           limits:
             cpu: 300m

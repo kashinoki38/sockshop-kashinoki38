@@ -59,10 +59,20 @@ spec:
             - mountPath: /load_test
               name: loadtest
               subPath: load_test
-            - mountPath: /scenario
-              name: jmeter-scenario-load-test
-            - mountPath: /sc-user-preparation
-              name: jmeter-scenario-user-preparation
+            - mountPath: /scenario.jmx
+              name: jmeter-scenario-load-test1
+              subPath: scenario.jmx
+            - mountPath: /preparation.jmx
+              name: jmeter-scenario-load-test2
+              subPath: preparation.jmx
+            - mountPath: /socks.csv
+              name: jmeter-scenario-load-test3
+              subPath: socks.csv
+            - mountPath: /userlist.csv
+              name: jmeter-scenario-load-test4
+              subPath: userlist.csv
+            # - mountPath: /sc-user-preparation
+            #   name: jmeter-scenario-user-preparation
       volumes:
         - configMap:
             defaultMode: 420
@@ -71,8 +81,32 @@ spec:
         - configMap:
             defaultMode: 420
             name: jmeter-scenario-load-test
-          name: jmeter-scenario-load-test
+            items:
+              - key: scenario.jmx
+                path: scenario.jmx
+          name: jmeter-scenario-load-test1
         - configMap:
             defaultMode: 420
-            name: jmeter-scenario-user-preparation
-          name: jmeter-scenario-user-preparation
+            name: jmeter-scenario-load-test
+            items:
+              - key: preparation.jmx
+                path: preparation.jmx
+          name: jmeter-scenario-load-test2
+        - configMap:
+            defaultMode: 420
+            name: jmeter-scenario-load-test
+            items:
+              - key: socks.csv
+                path: socks.csv
+          name: jmeter-scenario-load-test3
+        - configMap:
+            defaultMode: 420
+            name: jmeter-scenario-load-test
+            items:
+              - key: userlist.csv
+                path: userlist.csv
+          name: jmeter-scenario-load-test4
+        # - configMap:
+        #     defaultMode: 420
+        #     name: jmeter-scenario-user-preparation
+        #   name: jmeter-scenario-user-preparation

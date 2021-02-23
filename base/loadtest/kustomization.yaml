@@ -14,6 +14,9 @@ configMapGenerator:
   - name: jmeter-scenario-load-test
     files:
       - scenario.jmx
-  - name: jmeter-scenario-user-preparation
-    files:
       - preparation.jmx
+      - socks.csv
+      - userlist.csv
+  # - name: jmeter-scenario-user-preparation
+  # files:
+  # - preparation.jmx

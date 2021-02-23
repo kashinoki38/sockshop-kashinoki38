@@ -249,6 +249,8 @@ $ kustomize build overlays/ | kubectl delete -f -
 
 ### Flagger
 
+Flagger 自体のデプロイは Helm で実施。
+
 ```bash
 $ helm upgrade -i flagger flagger/ \
  -n istio-sytem \
@@ -269,7 +271,119 @@ slack:
   user: flagger
 ```
 
-#### Flagger の Webhook としての Jmeter
+#### Canary.yaml
+
+Flagger の設定として`canary.yaml`をデプロイする。
+
+```bash
+$ kubectl apply -f canary.yaml -n sock-shop
+$ kubectl get canary -n sock-shop
+NAME        STATUS        WEIGHT   LASTTRANSITIONTIME
+sock-shop   Initialized   0        2021-02-23T13:54:07Z
+```
+
+Canary をデプロイすると自動的にターゲットリソースが以下のように変更される。  
+具体的にはターゲットの Deployment に関連する service に`-primary`と`-canary`が追加｡  
+ターゲットの Deployment に`-primary`が追加。  
+VirtualService が追加。（Destination が`front-end-primary`と`front-end-canary`）
+
+```bash
+$ kubectl get all -n sock-shop | grep front-end
+pod/front-end-7b5f8c5b59-hlgxk           2/2     Running   0          72m
+pod/front-end-primary-76c6668fbb-qtc2q   2/2     Running   0          3m41s
+service/front-end           ClusterIP   10.179.3.9      <none>        80/TCP                       20h
+service/front-end-canary    ClusterIP   10.179.5.186    <none>        80/TCP                       3m41s
+service/front-end-primary   ClusterIP   10.179.3.89     <none>        80/TCP                       3m41s
+deployment.apps/front-end           1/1     1            1           20h
+deployment.apps/front-end-primary   1/1     1            1           3m41s
+replicaset.apps/front-end-7b5f8c5b59           1         1         1       72m
+replicaset.apps/front-end-primary-76c6668fbb   1         1         1       3m41s
+
+$ kubectl get vs
+NAME        GATEWAYS                        HOSTS   AGE
+front-end   [sock-shop/sock-shop-gateway]   [*]     13s
+
+
+$ kubectl describe canary sock-shop -n sock-shop | tail
+Events:
+  Type     Reason  Age                    From     Message
+  ----     ------  ----                   ----     -------
+  Warning  Synced  5m15s                  flagger  front-end-primary.sock-shop not ready: wa
+iting for rollout to finish: observed deployment generation less then desired generation
+  Normal   Synced  4m16s (x2 over 5m16s)  flagger  all the metrics providers are available!
+  Normal   Synced  4m15s                  flagger  Initialization done! sock-shop.sock-shop
+```
+
+##### Flagger の監視対象
+
+対象となる deployment を`.spec.targetRef`に記載。  
+当該 Deployment に変更が加わった際に Canary Analysis が開始される。
+
+```yaml
+spec:
+  # deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: front-end
+```
+
+##### デプロイ手法と Canary Analysis 設定
+
+`.spe.analysis`にて設定
+
+- Canary Release の場合
+
+  - `maxWeight`%まで`stepWeight`%ずつ新規 Deployment へトランザクションを増加させる割り振る
+  - リトライ間隔(`interval`), rollback するまでののリトライ回数(`threshold`)
+
+- Blue/Green デプロイメントの場合
+  - `maxWeight`, `stepWeight`を設定せず、`iterations`を設定することで Blue/Green デプロイメントを実現可能。
+  - 1 分 ×`iterations`の間、Canary Analysis が実施される。
+
+```yaml
+analysis:
+  # schedule interval (default 60s)
+  interval: 1m
+  # max number of failed metric checks before rollback
+  threshold: 5
+  # max traffic percentage routed to canary
+  # percentage (0-100)
+  # maxWeight: 50
+  # canary increment step
+  # percentage (0-100)
+  # stepWeight: 10
+  # You can use the blue/green deployment strategy by replacing stepWeight/maxWeight with iterations in the analysis spec:
+  # With this configuration Flagger will run conformance and load tests on the canary pods for ten minutes.
+  iterations: 15
+```
+
+##### 判定条件として metrics
+
+`.spec.analysis.metrics`にて Canary Analysis 中の判定条件を設定できる。
+
+```yaml
+analysis:
+  ...
+  metrics:
+    - name: request-success-rate
+      # minimum req success rate (non 5xx responses)
+      # percentage (0-100)
+      thresholdRange:
+        min: 99
+      interval: 1m
+    - name: request-duration
+      # maximum req duration P99
+      # milliseconds
+      thresholdRange:
+        max: 1000
+      interval: 30s
+```
+
+//TODO
+追加のメトリクス（リソース）
+
+##### Flagger の Webhook としての Jmeter
 
 sock-shop の Kustomize にて以下 Deployment と Service が導入済み。
 
@@ -298,6 +412,8 @@ $ kustomize build overlays/ | kubectl apply -f -
 Error from server (Invalid): error when creating "STDIN": ConfigMap "jmeter-scenario-load-test-kg4kc24f6t" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
 Error from server (Invalid): error when creating "STDIN": ConfigMap "jmeter-scenario-user-preparation-gh5g4kgk66" is invalid: metadata.annotations: Too long: must have at most 262144 bytes
 
+# deploy/jmeter-flagger-loadtesterを削除しkubectl create -f で再デプロイすること
+$ kubectl delete deploy jmeter-flagger-loadtester
 $ kustomize build overlays/ | kubectl create -f -
 configmap/jmeter-scenario-load-test-kg4kc24f6t created
 configmap/jmeter-scenario-user-preparation-gh5g4kgk66 created
@@ -343,14 +459,7 @@ $ docker build -t jmeter-flagger -f jmeter-flagger.dockerfile .
 $ docker run -d --name jmeter-flagger jmeter-flagger:latest
 ```
 
-Flagger の Canary 設定ファイル`canary.yaml`
-以下を設定
-
-- 対象となる deployment (`.spec.targetRef`)
-- Canary analysis の条件(`.spe.analysis`)
-  - リトライ間隔(`interval`), rollback するまでののリトライ回数(`threshold`), トランザクションを割り振る
-
-## Jmeter 実行
+## Jmeter 手動実行
 
 #### ユーザデータ準備
 

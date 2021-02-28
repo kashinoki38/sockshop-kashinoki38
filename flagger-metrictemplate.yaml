@@ -6,7 +6,7 @@ metadata:
 spec:
   provider:
     type: prometheus
-    address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
+    address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
   query: |
     sum(
       rate(
@@ -38,16 +38,16 @@ metadata:
 spec:
   provider:
     type: prometheus
-    address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
+    address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
   query: |
     histogram_quantile(0.95, 
       sum(
         irate(
           istio_request_duration_milliseconds_bucket{
             reporter="destination",
-            destination_workload=~"{{ target }}",
-            destination_workload_namespace=~"{{ namespace }}"
-          }[{{ interval }}]
+            destination_workload=~"front-end",
+            destination_workload_namespace=~"sock-shop"
+          }[2m]
         )
       ) by (le)
     )

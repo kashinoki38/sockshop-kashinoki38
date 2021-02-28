@@ -29,23 +29,23 @@ sock-shop をサンプルアプリとして、Observability と負荷試験自�
 ### 導入スタック＆前提条件
 
 - GKE 1.17.15-gke.800
-- Istio 1.6.11
+- Istio 1.6.11 (istioctl 使用して導入)
   ```bash
   > istioctl version
   client version: 1.6.11
   control plane version: 1.6.11-gke.0
   data plane version: 1.6.11-gke.0 (15 proxies)
   ```
-- prometheus-community/kube-prometheus-stack : Chart version 13.7.2
-- loki/loki-stack : 2.3.1
-- flagger/flagger : 1.6.3
-- flagger/loadtester : 0.18.0 (Docker イメージは独自で Jmeter 追加したイメージ)
+- prometheus-community/kube-prometheus-stack : Chart version 13.7.2 (Helm 使用して導入)
+- loki/loki-stack : 2.3.1 (Helm 使用して導入)
+- flagger/flagger : 1.6.3 (Helm 使用して導入)
+- flagger/loadtester : 0.18.0 (Docker イメージは独自で Jmeter 追加したイメージ) (Kustomize で導入)
   - kashinoki38/jmeter-flagger
   <!-- - EFK //TODO -->
 
 ## セットアップ手順
 
-### istio マニフェストデプロイ
+### 1. istio マニフェストデプロイ (istioctl 使用して導入)
 
 事前に Kubernetes マニフェスト確認
 
@@ -89,7 +89,7 @@ data:
 EOF
 ```
 
-### Prometheus
+### 2. Prometheus （kube-prometheus-stack、Helm 使用して導入）
 
 `kube-prometheus-stack`(旧 Prometheus-Operator)を使用。  
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
@@ -217,7 +217,7 @@ kube-prometheus-stack-pod-detail-dashboard                1      5m59s
 ...
 ```
 
-### Loki
+### 3. Loki（Helm 使用して導入）
 
 ```bash
 > helm upgrade -i loki-stack loki-stack/ -n monitoring
@@ -227,9 +227,9 @@ loki-stack              monitoring      1               2021-02-23 01:50:30.7269
 
 ```
 
-### SockShop クラスタデプロイ
+### 4. SockShop クラスタデプロイ（Kustomize 使用して導入）
 
-sock-shop namespace と jmeter namespace がデプロイされる。
+sock-shop namespace と jmeter namespace がデプロイされ、Sock-shop のクラスタ（service, deployment, gateway, virtualservice）と Loadtest のクラスタ（service, deployment, configmap）がデプロイされる。
 
 ```bash
 $ kubectl apply -f sock-shop-ns.yaml
@@ -247,7 +247,7 @@ $ kustomize build overlays/ | kubectl delete -f -
 
 `overlays/`配下の`kustomization.yaml`で Kustomize のパッチ当て。
 
-### Flagger
+### 5. Flagger （Helm 使用して導入）
 
 Flagger 自体のデプロイは Helm で実施。
 
@@ -380,6 +380,43 @@ analysis:
       interval: 30s
 ```
 
+###### MetricTemplate
+
+```yaml
+apiVersion: flagger.app/v1beta1
+kind: MetricTemplate
+metadata:
+  name: request-duration-custome
+  namespace: istio-system
+spec:
+  provider:
+    type: prometheus
+    address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+  query: |
+    histogram_quantile(0.95, 
+      sum(
+        irate(
+          istio_request_duration_milliseconds_bucket{
+            reporter="destination",
+            destination_workload=~"front-end",
+            destination_workload_namespace=~"sock-shop"
+          }[2m]
+        )
+      ) by (le)
+    )
+```
+
+`canary.yaml`
+
+```yaml
+metrics:
+  - name: request-duration-custome
+    templateRef:
+      name: request-duration-custome
+      namespace: istio-system
+  ...
+```
+
 //TODO
 追加のメトリクス（リソース）
 
@@ -389,6 +426,18 @@ sock-shop の Kustomize にて以下 Deployment と Service が導入済み。
 
 - svc/jmeter-flagger-loadtester
 - deploy/jmeter-flagger-loadtester
+  `canary.yaml`
+
+```yaml
+webhooks:
+  ...
+  - name: load-test
+    url: http://jmeter-flagger-loadtester.jmeter/
+    timeout: 5s
+    metadata:
+      # /jmeter/apache-jmeter-*/bin/jmeter -n -t $1 -Dserver.rmi.ssl.disable=true -JServerName=$2 -JNumOfThreads=$3 -JRampUp=$4 -JDuration=$5 -JTPM=$6
+      cmd: '/bin/bash /load_test /scenario.jmx "front-end-canary.sock-shop" "50" "180" "600" "3000"'
+```
 
 ##### Jmeter Scenario 更新方法
 
